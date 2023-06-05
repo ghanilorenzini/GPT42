@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="anchor_links" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="677.0" prefWidth="936.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.ApplicationController">
+   <children>
+      <ImageView fitHeight="99.0" fitWidth="99.0" layoutX="163.0" layoutY="563.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@lightmode.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="anchor_rechts" layoutX="411.0" layoutY="-7.0" prefHeight="684.0" prefWidth="527.0" style="-fx-background-color: white;">
+         <children>
+            <Button fx:id="inloggen_scherm" layoutX="100.0" layoutY="349.0" mnemonicParsing="false" onAction="#inloggen_scherm" prefHeight="55.0" prefWidth="151.0" style="-fx-background-color: white; -fx-border-color: black;" text="INLOGGEN">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="ww_vergeten" defaultButton="true" layoutX="103.0" layoutY="407.0" mnemonicParsing="false" onAction="#ww_vergeten" style="-fx-background-color: inherit; -fx-font-weight: bold;" text="Wachtwoord vergeten?" />
+            <Text layoutX="207.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chat42">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Text>
+            <Button fx:id="registreren_scherm" layoutX="262.0" layoutY="349.0" mnemonicParsing="false" onAction="#registreren_scherm" prefHeight="55.0" prefWidth="151.0" style="-fx-background-color: white; -fx-border-color: black;" text="REGISTREREN">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="153.0" fitWidth="253.0" layoutX="86.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@42_logo-removebg-preview%20(1).png" />
+         </image>
+      </ImageView>
+      <Button fx:id="lightmode" layoutX="163.0" layoutY="563.0" mnemonicParsing="false" onAction="#lightmode" opacity="0.0" prefHeight="99.0" prefWidth="99.0" text="Button" />
+   </children>
+</AnchorPane>
