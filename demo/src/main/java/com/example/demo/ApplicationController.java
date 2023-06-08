@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -216,17 +217,15 @@ public class ApplicationController implements Initializable {
                 showAssociatedAnchorPane(newButton);
             });
 
-            anchor_rechts.getChildren().add(newVBox); // Add the VBox to anchor_rechts after button setup
-
-
             newButton.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2) {
-                    // Change the button text when double-clicked
-                    TextInputDialog dialog = new TextInputDialog(newButton.getText());
-                    dialog.setHeaderText("Enter new button text:");
-                    dialog.showAndWait().ifPresent(newText -> newButton.setText(newText));
-                }
-            });
+                        if (event.getClickCount() == 2) {
+                            // Change the button text when double-clicked
+                            TextInputDialog dialog = new TextInputDialog(newButton.getText());
+                            dialog.setHeaderText("Verander het onderwerp");
+                            Optional<String> result = dialog.showAndWait();
+                            result.ifPresent(newText -> newButton.setText(newText));
+                        }
+                    });
 
         anchor_rechts.getChildren().add(newVBox); // Add the VBox to anchor_rechts after button setup
     }
@@ -253,7 +252,11 @@ public class ApplicationController implements Initializable {
 
          // Apply special style to the selected button
          button.setStyle("-fx-background-color:  #2d4474; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
-     }}
+     }
+
+
+}
+
 
 
 
