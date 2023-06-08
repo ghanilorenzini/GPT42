@@ -182,12 +182,10 @@ public class ApplicationController implements Initializable {
     private TextField chat_field;
 
     private int buttonCount = 0;
-    private Map<Button, VBox> buttonAnchorMap = new HashMap<>();
-
-
+    private Map<Button, Pair<VBox, TextField>> buttonAnchorMap = new HashMap<>();
 
     @FXML
-    public void nieuwe_chat(ActionEvent actionEvent) {
+    public void nieuwe_chat() {
         if (buttonCount < 30) {
             Button newButton = new Button("Chat " + (++buttonCount));
             newButton.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
@@ -199,48 +197,50 @@ public class ApplicationController implements Initializable {
             String[] colors = {"red", "green", "blue"}; // Add more colors as desired
             String color = colors[(buttonCount - 1) % colors.length];
             newVBox.setStyle("-fx-background-color: " + color + ";");
-            newVBox.setVisible(false); // Initially hide the AnchorPane
+            newVBox.setVisible(false); // Initially hide the VBox
 
             newTextField.setLayoutX(119.0);
             newTextField.setLayoutY(605.0);
             newTextField.setPrefHeight(26.0);
             newTextField.setPrefWidth(434.0);
             newTextField.setText("Stel een vraag..");
-            newTextField.setStyle("-fx-text-fill: red; -fx-background-color: yellow;");            chat_vbox.getChildren().add(newButton);
+            newTextField.setStyle("-fx-text-fill: red; -fx-background-color: yellow;");
 
-            buttonAnchorMap.put(newButton, newVBox);
+            chat_vbox.getChildren().add(newButton);
+            newVBox.getChildren().add(newTextField); // Add the TextField to the VBox
+
+            buttonAnchorMap.put(newButton, new Pair<>(newVBox, newTextField));
 
             newButton.setOnAction(event -> {
-                // Perform actions when the button is clicked
                 highlightButton(newButton);
                 showAssociatedAnchorPane(newButton);
             });
 
-            anchor_rechts.getChildren().add(newVBox); // Add the anchor pane to anchor_rechts after button setup
+            anchor_rechts.getChildren().add(newVBox); // Add the VBox to anchor_rechts after button setup
         }
     }
 
     private void showAssociatedAnchorPane(Button button) {
-        // Hide all AnchorPanes
-        for (VBox vbox : buttonAnchorMap.values()) {
-            vbox.setVisible(false);
+        // Hide all VBox and TextField
+        for (Pair<VBox, TextField> pair : buttonAnchorMap.values()) {
+            pair.getKey().setVisible(false);
+            pair.getValue().setVisible(false);
         }
 
-        // Show the associated AnchorPane for the clicked button
-        VBox associatedAnchorPane = buttonAnchorMap.get(button);
-        associatedAnchorPane.setVisible(true);
+        // Show the associated VBox and TextField for the clicked button
+        Pair<VBox, TextField> associatedPair = buttonAnchorMap.get(button);
+        associatedPair.getKey().setVisible(true);
+        associatedPair.getValue().setVisible(true);
     }
 
     private void highlightButton(Button button) {
         // Reset styles for all buttons
         for (Button b : buttonAnchorMap.keySet()) {
-            b.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
-        }
 
         // Apply special style to the selected button
         button.setStyle("-fx-background-color:  #2d4474; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
-    }
+    }}}
 
-    }
+
 
 
