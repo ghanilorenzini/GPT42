@@ -217,7 +217,19 @@ public class ApplicationController implements Initializable {
             });
 
             anchor_rechts.getChildren().add(newVBox); // Add the VBox to anchor_rechts after button setup
-        }
+
+
+            newButton.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2) {
+                    // Change the button text when double-clicked
+                    TextInputDialog dialog = new TextInputDialog(newButton.getText());
+                    dialog.setHeaderText("Enter new button text:");
+                    dialog.showAndWait().ifPresent(newText -> newButton.setText(newText));
+                }
+            });
+
+        anchor_rechts.getChildren().add(newVBox); // Add the VBox to anchor_rechts after button setup
+    }
     }
 
     private void showAssociatedAnchorPane(Button button) {
@@ -233,13 +245,15 @@ public class ApplicationController implements Initializable {
         associatedPair.getValue().setVisible(true);
     }
 
-    private void highlightButton(Button button) {
-        // Reset styles for all buttons
-        for (Button b : buttonAnchorMap.keySet()) {
+     private void highlightButton(Button button) {
+         // Reset styles for all buttons
+         for (Button b : buttonAnchorMap.keySet()) {
+             b.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
+         }
 
-        // Apply special style to the selected button
-        button.setStyle("-fx-background-color:  #2d4474; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
-    }}}
+         // Apply special style to the selected button
+         button.setStyle("-fx-background-color:  #2d4474; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
+     }}
 
 
 
