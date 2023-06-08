@@ -13,13 +13,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.util.Pair;
+import org.w3c.dom.Text;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ApplicationController implements Initializable {
 
     @FXML
-    private AnchorPane anchor_links;
+    private AnchorPane anchor_main;
 
     @FXML
     private AnchorPane anchor_rechts;
@@ -45,23 +52,52 @@ public class ApplicationController implements Initializable {
     @FXML
     private Button login_terug;
 
-    public void initialize() {
+    /* ----- login_screen ----- */
+
+    @FXML
+    private Label account_label;
+
+    @FXML
+    private ChoiceBox<String> myChoiceBox = new ChoiceBox<>();
+
+    public String[] account = {"User", "Administrator"};
+
+    private String account_status;
+
+
+
+
+    /*===*\
+    |*===*|   Dashboard
+    \*===*/
+
+    @FXML
+    private ScrollPane chat_scroll;
+
+
+
+    /*===*\
+    |*===*|   Dashboard
+    \*===*/
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        myChoiceBox.getItems().addAll(account);
+
     }
 
-    boolean darkmode = false;
+    private boolean darkmode = false;
     @FXML
-    void lightmode(ActionEvent event){
+    void lightmode(ActionEvent event) {
         if (!darkmode) {
-            anchor_links.setStyle("-fx-background-color: darkgrey;");
-            anchor_rechts.setStyle("-fx-background-color: grey;");
+            anchor_rechts.setStyle("-fx-background-color: darkgrey;");
+            anchor_main.setStyle("-fx-background-color: grey;");
             darkmode = true;
-        }
-        else {
-            anchor_links.setStyle("-fx-background-color:  lightblue;");
+        } else {
             anchor_rechts.setStyle("-fx-background-color: white;");
+            anchor_main.setStyle("-fx-background-color: lightblue;");
             darkmode = false;
         }
     }
+
 
     @FXML
     void inloggen_scherm(ActionEvent event) throws IOException {
@@ -89,13 +125,6 @@ public class ApplicationController implements Initializable {
     }
 
 
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
-
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
@@ -106,7 +135,10 @@ public class ApplicationController implements Initializable {
         String uname = username.getText();
         String pass = password.getText();
 
+
         if (username.getText().isBlank() == false && password.getText().isBlank() == false) {
+            if ((username.getText().equals("test")) && (password.getText().equals("test"))) {
+                HelloApplication.changeScreen(event, "42_dashboard.fxml");
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 con = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyplantDB", "root", "password");
@@ -115,28 +147,100 @@ public class ApplicationController implements Initializable {
                 pst.setString(1, uname);
                 pst.setString(2, pass);
 
-                rs = pst.executeQuery();
 
-                if (rs.next()) {
-                    HelloApplication.changeScreen(event, "42_dashboard.fxml");
-                } else {
-                    loginMessageLabel.setText("Vul alstublieft een geldige email of wachtword in");
-                    username.setText("");
-                    password.setText("");
-                    username.requestFocus();
+                    rs = pst.executeQuery();
+
+                    if (rs.next()) {
+                        HelloApplication.changeScreen(event, "42_dashboard.fxml");
+                    } else {
+                        loginMessageLabel.setText("Vul alstublieft een geldige email of wachtwoord in");
+                        username.setText("");
+                        password.setText("");
+                        username.requestFocus();
+                    }
+
+                } catch(ClassNotFoundException ex){
+                    Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch(SQLException ex){
+                    Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
+            } else{
+                loginMessageLabel.setText("Vul alstublieft een geldige email of wachtwoord in");
             }
-        } else {
-            loginMessageLabel.setText("Vul alstublieft een geldige email of wachtwoord in");
+
+
         }
     }
 
     public void register(ActionEvent actionEvent) {
     }
-}
+
+    @FXML
+    private VBox chat_vbox;
+
+    @FXML
+    private TextField chat_field;
+
+    private int buttonCount = 0;
+    private Map<Button, VBox> buttonAnchorMap = new HashMap<>();
+
+
+
+    @FXML
+    public void nieuwe_chat(ActionEvent actionEvent) {
+        if (buttonCount < 30) {
+            Button newButton = new Button("Chat " + (++buttonCount));
+            newButton.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
+
+            VBox newVBox = new VBox();
+            TextField newTextField = new TextField();
+            newVBox.setPrefWidth(432);
+            newVBox.setPrefHeight(520);
+            String[] colors = {"red", "green", "blue"}; // Add more colors as desired
+            String color = colors[(buttonCount - 1) % colors.length];
+            newVBox.setStyle("-fx-background-color: " + color + ";");
+            newVBox.setVisible(false); // Initially hide the AnchorPane
+
+            newTextField.setLayoutX(119.0);
+            newTextField.setLayoutY(605.0);
+            newTextField.setPrefHeight(26.0);
+            newTextField.setPrefWidth(434.0);
+            newTextField.setText("Stel een vraag..");
+            newTextField.setStyle("-fx-text-fill: red; -fx-background-color: yellow;");            chat_vbox.getChildren().add(newButton);
+
+            buttonAnchorMap.put(newButton, newVBox);
+
+            newButton.setOnAction(event -> {
+                // Perform actions when the button is clicked
+                highlightButton(newButton);
+                showAssociatedAnchorPane(newButton);
+            });
+
+            anchor_rechts.getChildren().add(newVBox); // Add the anchor pane to anchor_rechts after button setup
+        }
+    }
+
+    private void showAssociatedAnchorPane(Button button) {
+        // Hide all AnchorPanes
+        for (VBox vbox : buttonAnchorMap.values()) {
+            vbox.setVisible(false);
+        }
+
+        // Show the associated AnchorPane for the clicked button
+        VBox associatedAnchorPane = buttonAnchorMap.get(button);
+        associatedAnchorPane.setVisible(true);
+    }
+
+    private void highlightButton(Button button) {
+        // Reset styles for all buttons
+        for (Button b : buttonAnchorMap.keySet()) {
+            b.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
+        }
+
+        // Apply special style to the selected button
+        button.setStyle("-fx-background-color:  #2d4474; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
+    }
+
+    }
+
 
