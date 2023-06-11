@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -140,13 +141,13 @@ public class ApplicationController implements Initializable {
         if (username.getText().isBlank() == false && password.getText().isBlank() == false) {
             if ((username.getText().equals("test")) && (password.getText().equals("test"))) {
                 HelloApplication.changeScreen(event, "42_dashboard.fxml");
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyplantDB", "root", "password");
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    con = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyplantDB", "root", "password");
 
-                pst = con.prepareStatement("select * from account where gebruikersnaam=? and wachtwoord=?");
-                pst.setString(1, uname);
-                pst.setString(2, pass);
+                    pst = con.prepareStatement("select * from account where gebruikersnaam=? and wachtwoord=?");
+                    pst.setString(1, uname);
+                    pst.setString(2, pass);
 
 
                     rs = pst.executeQuery();
@@ -180,7 +181,10 @@ public class ApplicationController implements Initializable {
     private VBox chat_vbox;
 
     @FXML
-    private TextField chat_field;
+    private ScrollPane messages_scroll;
+
+    @FXML
+    private ScrollPane main_scroll;
 
     private int buttonCount = 0;
     private Map<Button, Pair<VBox, TextField>> buttonAnchorMap = new HashMap<>();
@@ -192,43 +196,79 @@ public class ApplicationController implements Initializable {
             newButton.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
 
             VBox newVBox = new VBox();
-            TextField newTextField = new TextField();
             newVBox.setPrefWidth(432);
             newVBox.setPrefHeight(520);
+            newVBox.setLayoutX(119);
+            newVBox.setLayoutY(40);
             String[] colors = {"red", "green", "blue"}; // Add more colors as desired
             String color = colors[(buttonCount - 1) % colors.length];
             newVBox.setStyle("-fx-background-color: " + color + ";");
             newVBox.setVisible(false); // Initially hide the VBox
 
-            newTextField.setLayoutX(119.0);
-            newTextField.setLayoutY(605.0);
+            ScrollPane newScrollPane = new ScrollPane(newVBox);
+            newScrollPane.setPrefWidth(450);
+            newScrollPane.setPrefHeight(520);
+            newScrollPane.setLayoutX(119);
+            newScrollPane.setLayoutY(40);
+
+            TextField newTextField = new TextField();
             newTextField.setPrefHeight(26.0);
-            newTextField.setPrefWidth(434.0);
+            newTextField.setPrefWidth(450);
+            newTextField.setLayoutX(119);
+            newTextField.setLayoutY(605);
+            newTextField.setVisible(false);
             newTextField.setText("Stel een vraag..");
             newTextField.setStyle("-fx-text-fill: red; -fx-background-color: yellow;");
 
             chat_vbox.getChildren().add(newButton);
-            newVBox.getChildren().add(newTextField); // Add the TextField to the VBox
-
             buttonAnchorMap.put(newButton, new Pair<>(newVBox, newTextField));
 
             newButton.setOnAction(event -> {
                 highlightButton(newButton);
                 showAssociatedAnchorPane(newButton);
+                newTextField.setVisible(true);
+                anchor_rechts.getChildren().add(newTextField);
+                anchor_rechts.getChildren().clear();
+                anchor_rechts.getChildren().addAll(newScrollPane, newTextField);
             });
 
             newButton.setOnMouseClicked(event -> {
-                        if (event.getClickCount() == 2) {
-                            // Change the button text when double-clicked
-                            TextInputDialog dialog = new TextInputDialog(newButton.getText());
-                            dialog.setHeaderText("Verander het onderwerp");
-                            Optional<String> result = dialog.showAndWait();
-                            result.ifPresent(newText -> newButton.setText(newText));
-                        }
-                    });
+                if (event.getClickCount() == 2) {
+                    // Change the button text when double-clicked
+                    TextInputDialog dialog = new TextInputDialog(newButton.getText());
+                    dialog.setHeaderText("Verander het onderwerp");
+                    Optional<String> result = dialog.showAndWait();
+                    result.ifPresent(newText -> newButton.setText(newText));
+                }
+            });
 
-        anchor_rechts.getChildren().add(newVBox); // Add the VBox to anchor_rechts after button setup
-    }
+            newTextField.setOnMouseClicked(event -> {
+                if (newTextField.getText().equals("Stel een vraag..")) {
+                    newTextField.setText("");
+                }
+            });
+
+            newTextField.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    TextField messageTextField = new TextField("Akram: " + newTextField.getText());
+                    TextField AITextField = new TextField("Chat42: ");
+                    messageTextField.setVisible(true);
+                    AITextField.setVisible(true);
+                    newVBox.getChildren().add(messageTextField);
+
+                    System.out.println(newTextField.getText());
+                    if (newTextField.getText().equals("Hoi ik ben Akram")) {
+                        AITextField.setText("Chat42: " + "Hoi Akram, ik ben Chat42");
+                   }
+
+                    newVBox.getChildren().add(AITextField);
+                    newTextField.setText("");
+
+                }
+            });
+            anchor_rechts.getChildren().add(newVBox); // Add the VBox to anchor_rechts after button setup
+
+        }
     }
 
     private void showAssociatedAnchorPane(Button button) {
@@ -244,15 +284,15 @@ public class ApplicationController implements Initializable {
         associatedPair.getValue().setVisible(true);
     }
 
-     private void highlightButton(Button button) {
-         // Reset styles for all buttons
-         for (Button b : buttonAnchorMap.keySet()) {
-             b.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
-         }
+    private void highlightButton(Button button) {
+        // Reset styles for all buttons
+        for (Button b : buttonAnchorMap.keySet()) {
+            b.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
+        }
 
-         // Apply special style to the selected button
-         button.setStyle("-fx-background-color:  #2d4474; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
-     }
+        // Apply special style to the selected button
+        button.setStyle("-fx-background-color:  #2d4474; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
+    }
 
 
 }
