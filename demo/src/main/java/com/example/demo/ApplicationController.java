@@ -256,7 +256,6 @@ public class ApplicationController implements Initializable {
                     AITextField.setVisible(true);
                     newVBox.getChildren().add(messageTextField);
 
-                    System.out.println(newTextField.getText());
                     if (newTextField.getText().equals("Hoi ik ben Akram")) {
                         AITextField.setText("Chat42: " + "Hoi Akram, ik ben Chat42");
                    }
