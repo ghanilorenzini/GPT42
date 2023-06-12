@@ -13,7 +13,7 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("42_dashboard.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("42_start_screen.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 936, 677);
         stage.setTitle("Chat42");
         stage.setScene(scene);

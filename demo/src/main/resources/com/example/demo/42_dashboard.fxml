@@ -13,16 +13,16 @@
 <AnchorPane fx:id="anchor_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="677.0" prefWidth="936.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.ApplicationController">
    <children>
       <StackPane prefHeight="150.0" prefWidth="200.0" />
-      <ScrollPane fx:id="main_scroll" layoutX="15.0" layoutY="63.0" prefHeight="538.0" prefWidth="230.0">
+      <ScrollPane fx:id="main_scroll" hbarPolicy="NEVER" layoutX="15.0" layoutY="63.0" prefHeight="538.0" prefWidth="230.0" style="-fx-background-color: lightblue;" vbarPolicy="NEVER">
          <content>
-            <VBox fx:id="chat_vbox" prefHeight="537.0" prefWidth="214.0" spacing="10.0" style="-fx-background-color: lightblue;" />
+            <VBox id=".chat_vbox" fx:id="chat_vbox" prefHeight="538.0" prefWidth="226.0" spacing="10.0" style="-fx-background-color: lightblue;" />
          </content>
       </ScrollPane>
       <AnchorPane fx:id="anchor_rechts" layoutX="264.0" layoutY="-1.0" prefHeight="678.0" prefWidth="672.0" style="-fx-background-color: white;">
          <children>
-            <ScrollPane fx:id="messages_scroll" layoutX="119.0" layoutY="34.0" prefHeight="530.0" prefWidth="450.0" style="-fx-background-color: white;">
+            <ScrollPane fx:id="messages_scroll" hbarPolicy="NEVER" layoutX="119.0" layoutY="34.0" prefHeight="530.0" prefWidth="450.0" style="-fx-background-color: white;" vbarPolicy="NEVER">
                <content>
-                  <VBox prefHeight="520.0" prefWidth="432.0" style="-fx-background-color: white;">
+                  <VBox prefHeight="534.0" prefWidth="454.0" style="-fx-background-color: white;">
                      <children>
                         <Label />
                      </children>

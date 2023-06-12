@@ -189,6 +189,10 @@ public class ApplicationController implements Initializable {
     private int buttonCount = 0;
     private Map<Button, Pair<VBox, TextField>> buttonAnchorMap = new HashMap<>();
 
+    private int getLineCount(String text) {
+        return text.split("\n").length;
+    }
+
     @FXML
     public void nieuwe_chat() {
         if (buttonCount < 30) {
@@ -196,20 +200,20 @@ public class ApplicationController implements Initializable {
             newButton.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-pref-width: 230px; -fx-pref-height: 26px; -fx-border-color: black; -fx-border-width: 1px;");
 
             VBox newVBox = new VBox();
-            newVBox.setPrefWidth(432);
+            newVBox.setPrefWidth(450);
             newVBox.setPrefHeight(520);
             newVBox.setLayoutX(119);
             newVBox.setLayoutY(40);
-            String[] colors = {"red", "green", "blue"}; // Add more colors as desired
-            String color = colors[(buttonCount - 1) % colors.length];
-            newVBox.setStyle("-fx-background-color: " + color + ";");
-            newVBox.setVisible(false); // Initially hide the VBox
+            newVBox.setStyle("-fx-background-color: white");
+            newVBox.setVisible(false);
 
             ScrollPane newScrollPane = new ScrollPane(newVBox);
             newScrollPane.setPrefWidth(450);
             newScrollPane.setPrefHeight(520);
             newScrollPane.setLayoutX(119);
             newScrollPane.setLayoutY(40);
+            newScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            newScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
             TextField newTextField = new TextField();
             newTextField.setPrefHeight(26.0);
@@ -217,7 +221,7 @@ public class ApplicationController implements Initializable {
             newTextField.setLayoutX(119);
             newTextField.setLayoutY(605);
             newTextField.setVisible(false);
-            newTextField.setText("Stel een vraag..");
+            newTextField.setText("Stel een vraag...");
             newTextField.setStyle("-fx-text-fill: red; -fx-background-color: yellow;");
 
             chat_vbox.getChildren().add(newButton);
@@ -227,14 +231,12 @@ public class ApplicationController implements Initializable {
                 highlightButton(newButton);
                 showAssociatedAnchorPane(newButton);
                 newTextField.setVisible(true);
-                anchor_rechts.getChildren().add(newTextField);
                 anchor_rechts.getChildren().clear();
                 anchor_rechts.getChildren().addAll(newScrollPane, newTextField);
             });
 
             newButton.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2) {
-                    // Change the button text when double-clicked
                     TextInputDialog dialog = new TextInputDialog(newButton.getText());
                     dialog.setHeaderText("Verander het onderwerp");
                     Optional<String> result = dialog.showAndWait();
@@ -243,17 +245,31 @@ public class ApplicationController implements Initializable {
             });
 
             newTextField.setOnMouseClicked(event -> {
-                if (newTextField.getText().equals("Stel een vraag..")) {
+                if (newTextField.getText().equals("Stel een vraag...")) {
                     newTextField.setText("");
                 }
             });
 
             newTextField.setOnKeyPressed(event -> {
                 if (event.getCode() == KeyCode.ENTER) {
-                    TextField messageTextField = new TextField("Akram: " + newTextField.getText());
-                    TextField AITextField = new TextField("Chat42: ");
+                    TextArea messageTextField = new TextArea("Akram: " + newTextField.getText());
                     messageTextField.setVisible(true);
+                    messageTextField.setEditable(false);
+                    messageTextField.setWrapText(true); // Enable text wrapping
+
+
+                    TextArea AITextField = new TextArea("Chat42: ");
+                    AITextField.setWrapText(true); // Enable text wrapping
+                    AITextField.setPrefRowCount(getLineCount(AITextField.getText()));
+
+                    // Bind the preferred row count to the number of lines in the text
+                    AITextField.textProperty().addListener((observable, oldValue, newValue) ->
+                            AITextField.setPrefRowCount(getLineCount(newValue) + 1));
+
+                    AITextField.setStyle("-fx-background-color: red; -fx-");
                     AITextField.setVisible(true);
+                    AITextField.setEditable(false);
+
                     newVBox.getChildren().add(messageTextField);
 
                     if (newTextField.getText().equals("Hoi ik ben Akram")) {
@@ -265,7 +281,7 @@ public class ApplicationController implements Initializable {
 
                 }
             });
-            anchor_rechts.getChildren().add(newVBox); // Add the VBox to anchor_rechts after button setup
+            anchor_rechts.getChildren().add(newVBox);
 
         }
     }
