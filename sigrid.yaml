@@ -7,7 +7,7 @@ languages:
 - name: "Java"
 
 dependencychecker:
-blacklist: []
+blacklist: [MysqlxCrud.java]
 
 # architecture:
 # enabled: true
