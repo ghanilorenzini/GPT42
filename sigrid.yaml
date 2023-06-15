@@ -1,14 +1,12 @@
 default_excludes: false
-
-components: []
+components: [] 
 languages:
+- name: "Batch"
+- name: "Css"
 - name: "Java"
-
-dependencychecker:
-blacklist: [MysqlxCrud.java]
-
-# architecture:
-# enabled: true
-
+  
+dependencychecker: 
+  blacklist: []
+  
 thirdpartyfindings:
-enabled: false
+  enabled: true
