@@ -13,4 +13,4 @@ blacklist: []
 # enabled: true
 
 thirdpartyfindings:
-enabled: true
+enabled: false
