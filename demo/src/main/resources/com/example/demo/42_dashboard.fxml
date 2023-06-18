@@ -31,7 +31,7 @@
             <TextField fx:id="chat_field1" layoutX="119.0" layoutY="605.0" prefHeight="26.0" prefWidth="434.0" text="Stel een vraag.." />
          </children>
       </AnchorPane>
-      <Button layoutX="10.0" layoutY="638.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="202.0" style="-fx-background-color: #2d4474;" text="Settings" textFill="WHITE" />
+      <Button fx:id="instellingen" layoutX="10.0" layoutY="638.0" mnemonicParsing="false" onAction="#instellingen" prefHeight="30.0" prefWidth="202.0" style="-fx-background-color: #2d4474;" text="Instellingen" textFill="WHITE" />
       <ImageView fitHeight="48.0" fitWidth="40.0" layoutX="218.0" layoutY="633.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@lightmode.png" />

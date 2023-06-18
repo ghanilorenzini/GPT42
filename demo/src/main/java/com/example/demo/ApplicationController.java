@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -60,44 +61,11 @@ public class ApplicationController implements Initializable {
     private Label account_label;
 
     @FXML
-    private ChoiceBox<String> myChoiceBox = new ChoiceBox<>();
-
-    public String[] account = {"User", "Administrator"};
-
-    private String account_status;
-
-
-
-
-    /*===*\
-    |*===*|   Dashboard
-    \*===*/
-
-    @FXML
     private ScrollPane chat_scroll;
 
-
-
-    /*===*\
-    |*===*|   Dashboard
-    \*===*/
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        myChoiceBox.getItems().addAll(account);
 
-    }
 
-    private boolean darkmode = false;
-    @FXML
-    void lightmode(ActionEvent event) {
-        if (!darkmode) {
-            anchor_rechts.setStyle("-fx-background-color: darkgrey;");
-            anchor_main.setStyle("-fx-background-color: grey;");
-            darkmode = true;
-        } else {
-            anchor_rechts.setStyle("-fx-background-color: white;");
-            anchor_main.setStyle("-fx-background-color: lightblue;");
-            darkmode = false;
-        }
     }
 
 
@@ -126,10 +94,37 @@ public class ApplicationController implements Initializable {
         HelloApplication.changeScreen(event, "42_start_screen.fxml");
     }
 
+    private boolean darkmode = false;
+     @FXML
+     void lightmode(ActionEvent event) {
+        if (!darkmode) {
+            anchor_rechts.setStyle("-fx-background-color: darkgrey;");
+            anchor_main.setStyle("-fx-background-color: grey;");
+            darkmode = true;
+        } else {
+            anchor_rechts.setStyle("-fx-background-color: white;");
+            anchor_main.setStyle("-fx-background-color: lightblue;");
+            darkmode = false;
+    }}
+
+
+    public void register(ActionEvent event) throws IOException {
+        if (username.getText().isBlank() == false && password.getText().isBlank() == false) {
+            if ((username.getText().equals("test")) && (password.getText().equals("test"))) {
+                HelloApplication.changeScreen(event, "42_dashboard.fxml");
+            } else {
+                loginMessageLabel.setText("Vul alstublieft een geldige email of wachtwoord in");
+                username.setText("");
+                password.setText("");
+                username.requestFocus();
+            }
+        }
+    }
 
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+
 
     @FXML
     void login(ActionEvent event) throws IOException {
@@ -139,6 +134,7 @@ public class ApplicationController implements Initializable {
 
 
         if (username.getText().isBlank() == false && password.getText().isBlank() == false) {
+
             if ((username.getText().equals("test")) && (password.getText().equals("test"))) {
                 HelloApplication.changeScreen(event, "42_dashboard.fxml");
                 try {
@@ -153,6 +149,7 @@ public class ApplicationController implements Initializable {
                     rs = pst.executeQuery();
 
                     if (rs.next()) {
+
                         HelloApplication.changeScreen(event, "42_dashboard.fxml");
                     } else {
                         loginMessageLabel.setText("Vul alstublieft een geldige email of wachtwoord in");
@@ -174,9 +171,6 @@ public class ApplicationController implements Initializable {
         }
     }
 
-    public void register(ActionEvent actionEvent) {
-    }
-
     @FXML
     private VBox chat_vbox;
 
@@ -188,10 +182,6 @@ public class ApplicationController implements Initializable {
 
     private int buttonCount = 0;
     private Map<Button, Pair<VBox, TextField>> buttonAnchorMap = new HashMap<>();
-
-    private int getLineCount(String text) {
-        return text.split("\n").length;
-    }
 
     @FXML
     public void nieuwe_chat() {
@@ -222,7 +212,7 @@ public class ApplicationController implements Initializable {
             newTextField.setLayoutY(605);
             newTextField.setVisible(false);
             newTextField.setText("Stel een vraag...");
-            newTextField.setStyle("-fx-text-fill: red; -fx-background-color: yellow;");
+            newTextField.setStyle("-fx-text-fill: white; -fx-background-color: grey;");
 
             chat_vbox.getChildren().add(newButton);
             buttonAnchorMap.put(newButton, new Pair<>(newVBox, newTextField));
@@ -254,20 +244,17 @@ public class ApplicationController implements Initializable {
                 if (event.getCode() == KeyCode.ENTER) {
                     TextArea messageTextField = new TextArea("Akram: " + newTextField.getText());
                     messageTextField.setVisible(true);
+                    messageTextField.setWrapText(false); // Enable text wrapping
+                    messageTextField.setPrefHeight(30);
                     messageTextField.setEditable(false);
-                    messageTextField.setWrapText(true); // Enable text wrapping
 
 
                     TextArea AITextField = new TextArea("Chat42: ");
                     AITextField.setWrapText(true); // Enable text wrapping
-                    AITextField.setPrefRowCount(getLineCount(AITextField.getText()));
-
-                    // Bind the preferred row count to the number of lines in the text
-                    AITextField.textProperty().addListener((observable, oldValue, newValue) ->
-                            AITextField.setPrefRowCount(getLineCount(newValue) + 1));
-
-                    AITextField.setStyle("-fx-background-color: red; -fx-");
+                    AITextField.setStyle("-fx-background-color: black;");
                     AITextField.setVisible(true);
+                    AITextField.setWrapText(false); // Enable text wrapping
+                    AITextField.setPrefHeight(30);
                     AITextField.setEditable(false);
 
                     newVBox.getChildren().add(messageTextField);
@@ -275,6 +262,9 @@ public class ApplicationController implements Initializable {
                     if (newTextField.getText().equals("Hoi ik ben Akram")) {
                         AITextField.setText("Chat42: " + "Hoi Akram, ik ben Chat42");
                    }
+                    if (newTextField.getText().equals("Wat vind jij van Arzu?")) {
+                        AITextField.setText("Chat42: " + "Arzu ziet er echt lekker uit");
+                    }
 
                     newVBox.getChildren().add(AITextField);
                     newTextField.setText("");
@@ -285,6 +275,7 @@ public class ApplicationController implements Initializable {
 
         }
     }
+
 
     private void showAssociatedAnchorPane(Button button) {
         // Hide all VBox and TextField
@@ -310,6 +301,19 @@ public class ApplicationController implements Initializable {
     }
 
 
+    @FXML
+    private Button instellingen;
+
+    @FXML
+    void instellingen(ActionEvent event) throws IOException {
+        HelloApplication.changeScreen(event, "42_settings.fxml");
+    }
+
+
+    public void uitloggen(ActionEvent event) throws IOException{
+        HelloApplication.changeScreen(event, "42_start_screen.fxml");
+
+    }
 }
 
 

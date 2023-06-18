@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -18,6 +17,7 @@ public class HelloApplication extends Application {
         stage.setTitle("Chat42");
         stage.setScene(scene);
         stage.show();
+
     }
     public static void changeScreen(ActionEvent actionEvent, String location) throws IOException {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
