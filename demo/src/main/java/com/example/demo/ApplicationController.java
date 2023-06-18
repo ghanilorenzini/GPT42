@@ -262,9 +262,7 @@ public class ApplicationController implements Initializable {
                     if (newTextField.getText().equals("Hoi ik ben Akram")) {
                         AITextField.setText("Chat42: " + "Hoi Akram, ik ben Chat42");
                    }
-                    if (newTextField.getText().equals("Wat vind jij van Arzu?")) {
-                        AITextField.setText("Chat42: " + "Arzu ziet er echt lekker uit");
-                    }
+                
 
                     newVBox.getChildren().add(AITextField);
                     newTextField.setText("");
