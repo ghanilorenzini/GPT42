@@ -3,6 +3,7 @@ module com.example.demo {
     requires javafx.fxml;
     requires java.sql;
     requires com.fazecast.jSerialComm;
+    requires java.prefs;
 
 
     opens com.example.demo to javafx.fxml;

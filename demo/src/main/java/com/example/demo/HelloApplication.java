@@ -17,6 +17,7 @@ public class HelloApplication extends Application {
         stage.setTitle("Chat42");
         stage.setScene(scene);
         stage.show();
+
     }
     public static void changeScreen(ActionEvent actionEvent, String location) throws IOException {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -26,7 +27,10 @@ public class HelloApplication extends Application {
         stage.show();
         DatabaseConnection.getQuery("select * from account");
     }
+
+
     public static void main(String[] args) {
         launch();
     }
+
 }

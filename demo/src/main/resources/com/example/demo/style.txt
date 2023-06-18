@@ -1,3 +1,0 @@
-.no-scroll .scroll-pane > .scroll-bar:vertical {
-    -fx-opacity: 0;
-}
