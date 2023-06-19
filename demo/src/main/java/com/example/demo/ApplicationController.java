@@ -129,6 +129,7 @@ public class ApplicationController implements Initializable {
         }
     }
 
+    @FXML
     private void login(ActionEvent event) throws IOException {
         initializeLoginCredentials();
         if (loginCredentials.isValid() && (databaseHandler.loginUser(loginCredentials.getUsername(), loginCredentials.getPassword()) || (loginCredentials.getUsername().equals("test") && loginCredentials.getPassword().equals("test")))) {
