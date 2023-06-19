@@ -129,7 +129,8 @@ public class ApplicationController implements Initializable {
         }
     }
 
-   
+    private void login(ActionEvent event) throws IOException {
+        initializeLoginCredentials();
         if (loginCredentials.isValid() && (databaseHandler.loginUser(loginCredentials.getUsername(), loginCredentials.getPassword()) || (loginCredentials.getUsername().equals("test") && loginCredentials.getPassword().equals("test")))) {
             HelloApplication.changeScreen(event, "42_dashboard.fxml");
         } else {
