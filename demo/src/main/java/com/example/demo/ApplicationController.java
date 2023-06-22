@@ -39,7 +39,7 @@ public class ApplicationController implements Initializable {
     private Button register;
 
     @FXML
-    private TextField username;
+    TextField username;
 
     @FXML
     private PasswordField password;
@@ -68,8 +68,13 @@ public class ApplicationController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         databaseHandler = new DatabaseHandler();
         chatHandler = new ChatHandler(chatVBox, messagesScroll, anchorRechts);
+        currentScreen = "42_start_screen.fxml"; // Set the initial screen
     }
 
+    private String currentScreen;
+    public String getCurrentScreen() {
+        return currentScreen;
+    }
     @FXML
     void inloggen_scherm(ActionEvent event) throws IOException {
         EventHandler.handleLogin(event);
@@ -103,7 +108,7 @@ public class ApplicationController implements Initializable {
         darkmode = !darkmode;
     }
 
-    private LoginCredentials loginCredentials;
+    public LoginCredentials loginCredentials;
 
     @FXML
     private void initializeLoginCredentials() {
@@ -130,7 +135,7 @@ public class ApplicationController implements Initializable {
     }
 
     @FXML
-    private void login(ActionEvent event) throws IOException {
+    public void login(ActionEvent event) throws IOException {
         initializeLoginCredentials();
         if (loginCredentials.isValid() && (databaseHandler.loginUser(loginCredentials.getUsername(), loginCredentials.getPassword()) || (loginCredentials.getUsername().equals("test") && loginCredentials.getPassword().equals("test")))) {
             HelloApplication.changeScreen(event, "42_dashboard.fxml");
