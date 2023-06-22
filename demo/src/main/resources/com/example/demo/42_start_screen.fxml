@@ -9,7 +9,7 @@
 
 <AnchorPane fx:id="anchor_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="677.0" prefWidth="936.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.ApplicationController">
    <children>
-      <AnchorPane fx:id="anchor_rechts" layoutX="411.0" layoutY="-7.0" prefHeight="684.0" prefWidth="535.0" style="-fx-background-color: white;">
+      <AnchorPane fx:id="anchorRechts" layoutX="411.0" layoutY="-7.0" prefHeight="684.0" prefWidth="535.0" style="-fx-background-color: white;">
          <children>
             <Button fx:id="inloggen_scherm" layoutX="100.0" layoutY="349.0" mnemonicParsing="false" onAction="#inloggen_scherm" prefHeight="55.0" prefWidth="151.0" style="-fx-background-color: white; -fx-border-color: black;" text="INLOGGEN">
                <font>

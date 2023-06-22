@@ -14,14 +14,30 @@ public class EventHandler {
             HelloApplication.changeScreen(event, "42_register_screen.fxml");
         }
 
-        public static void handleLightMode(boolean darkmode, AnchorPane anchor_rechts, AnchorPane anchor_main) {
+        public static void handleLightMode(boolean darkmode, AnchorPane anchorRechts, AnchorPane anchor_main) {
             if (!darkmode) {
-                anchor_rechts.setStyle("-fx-background-color: darkgrey;");
+                anchorRechts.setStyle("-fx-background-color: darkgrey;");
                 anchor_main.setStyle("-fx-background-color: grey;");
             }
             else {
-                anchor_rechts.setStyle("-fx-background-color: white;");
+                anchorRechts.setStyle("-fx-background-color: white;");
                 anchor_main.setStyle("-fx-background-color: lightblue;");
             }
         }
-}
+
+        public boolean isLightMode;
+
+        public EventHandler() {
+            isLightMode = true;
+        }
+
+        public void setDarkMode(boolean darkMode) {
+            isLightMode = !darkMode;
+        }
+
+        public boolean isDarkMode() {
+            return !isLightMode;
+        }
+
+    }
+
