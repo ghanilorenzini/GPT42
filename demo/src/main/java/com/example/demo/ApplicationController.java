@@ -140,7 +140,7 @@ public class ApplicationController implements Initializable {
     }
 
     private void handleLoginFailure() {
-        loginMessageLabel.setText("Vul alstublieft een geldige email of wachtwoord in");
+        loginMessageLabel.setText("Vul alstublieft een geldige Email of Wachtwoord in");
         username.setText("");
         password.setText("");
         username.requestFocus();
