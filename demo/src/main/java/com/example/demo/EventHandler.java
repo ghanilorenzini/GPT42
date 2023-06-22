@@ -2,6 +2,7 @@ package com.example.demo;
 
 import javafx.event.ActionEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -24,6 +25,22 @@ public class EventHandler {
                 anchor_main.setStyle("-fx-background-color: lightblue;");
             }
         }
+
+    public static void handleDashboardLightMode(boolean darkmode, AnchorPane anchorRechts, AnchorPane anchor_main, VBox chatVBox, VBox messagesVBox) {
+        if (!darkmode) {
+            anchorRechts.setStyle("-fx-background-color: darkgrey;");
+            anchor_main.setStyle("-fx-background-color: grey;");
+            chatVBox.setStyle("-fx-background-color: grey;");
+            messagesVBox.setStyle("-fx-background-color: grey;");
+        }
+        else {
+            anchorRechts.setStyle("-fx-background-color: white;");
+            anchor_main.setStyle("-fx-background-color: lightblue;");
+            chatVBox.setStyle("-fx-background-color: lightblue;");
+            messagesVBox.setStyle("-fx-background-color: white;");
+        }
+    }
+
 
         public boolean isLightMode;
 

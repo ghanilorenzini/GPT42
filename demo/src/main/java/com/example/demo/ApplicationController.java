@@ -33,6 +33,10 @@ public class ApplicationController implements Initializable {
     private Button lightmode;
 
     @FXML
+    private Button dashboard_lightmode;
+
+
+    @FXML
     private Button inloggen;
 
     @FXML
@@ -52,6 +56,9 @@ public class ApplicationController implements Initializable {
 
     @FXML
     private VBox chatVBox;
+
+    @FXML
+    private VBox messagesVBox;
 
     @FXML
     private ScrollPane messagesScroll;
@@ -105,6 +112,12 @@ public class ApplicationController implements Initializable {
     @FXML
     void lightmode(ActionEvent event) {
         EventHandler.handleLightMode(darkmode, anchorRechts, anchor_main);
+        darkmode = !darkmode;
+    }
+
+    @FXML
+    void dashboard_lightmode(ActionEvent event){
+        EventHandler.handleDashboardLightMode(darkmode, anchorRechts, anchor_main, chatVBox, messagesVBox);
         darkmode = !darkmode;
     }
 
