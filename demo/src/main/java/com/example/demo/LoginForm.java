@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class LoginForm extends Application {
     // SQL Database credentials
@@ -22,9 +24,35 @@ public class LoginForm extends Application {
     private TextField usernameField;
     private PasswordField passwordField;
     private Label messageLabel;
+    private List<LoginFormObserver> observers;
+    private List<Boolean> loginResults; // List to store login results
+
+    public LoginForm() {
+        observers = new ArrayList<>();
+        loginResults = new ArrayList<>();
+    }
 
     public static void main(String[] args) {
         launch(args);
+        // Create an instance of LoginResultSaver
+        LoginResultSaver resultSaver = new LoginResultSaver();
+
+        // Register the resultSaver as an observer in the LoginForm
+        LoginForm loginForm = new LoginForm();
+        loginForm.registerObserver(resultSaver);
+    }
+
+    // Observer methods
+    public void registerObserver(LoginFormObserver observer) {
+        if (!observers.contains(observer)) {
+            observers.add(observer);
+        }
+    }
+
+    private void notifyObservers(boolean loginSuccessful) {
+        for (LoginFormObserver observer : observers) {
+            observer.onLoginResult(loginSuccessful);
+        }
     }
 
     @Override
@@ -52,11 +80,18 @@ public class LoginForm extends Application {
             String username = usernameField.getText();
             String password = passwordField.getText();
             try {
-                if (checkCredentials(username, password)) {
+                boolean loginSuccessful = checkCredentials(username, password);
+                if (loginSuccessful) {
                     messageLabel.setText("Inloggen gelukt!");
                 } else {
                     messageLabel.setText("Inloggen mislukt. Controleer je gebruikersnaam en wachtwoord.");
                 }
+
+                // Save the login result in the list
+                loginResults.add(loginSuccessful);
+                notifyObservers(loginSuccessful); // Notify the observers
+
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -83,4 +118,6 @@ public class LoginForm extends Application {
         // Return true if a match was found, otherwise false
         return matchFound;
     }
+
+
 }
