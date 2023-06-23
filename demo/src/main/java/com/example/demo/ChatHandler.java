@@ -161,7 +161,7 @@ public class ChatHandler {
         // Hide all VBox and TextField
         for (Pair<VBox, TextField> pair : buttonAnchorMap.values()) {
             pair.getKey().setVisible(false);
-            pair.getValue().setVisible(false);
+            pair.getValue   ().setVisible(false);
         }
 
         // Show the associated VBox and TextField for the clicked button
