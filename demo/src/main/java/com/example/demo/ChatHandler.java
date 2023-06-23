@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class ChatHandler {
+public class ChatHandler extends QuestionAnsweringModel{
     private int buttonCount = 0;
     private Map<Button, Pair<VBox, TextField>> buttonAnchorMap = new HashMap<>();
 
@@ -128,32 +128,24 @@ public class ChatHandler {
         }
     }
 
-    private void processTextFieldInput(TextField textField, VBox vbox) {
-        String inputText = textField.getText();
-        TextArea messageTextField = new TextArea("Akram: " + inputText);
+    @Override
+    protected TextArea createMessageTextField(String text) {
+        TextArea messageTextField = new TextArea(text);
         messageTextField.setVisible(true);
         messageTextField.setWrapText(false);
         messageTextField.setPrefHeight(30);
         messageTextField.setEditable(false);
-
-        TextArea AITextField = new TextArea("Chat42: ");
-        AITextField.setWrapText(true);
-        AITextField.setStyle("-fx-background-color: black;");
-        AITextField.setVisible(true);
-        AITextField.setWrapText(false);
-        AITextField.setPrefHeight(30);
-        AITextField.setEditable(false);
-
-        vbox.getChildren().add(messageTextField);
-
-        if (inputText.equals("Hoi ik ben Akram")) {
-            AITextField.setText("Chat42: " + "Hoi Akram, ik ben Chat42");
-        }
-
-        vbox.getChildren().add(AITextField);
-        textField.setText("");
+        return messageTextField;
     }
 
+    @Override
+    protected void answerQuestion(String question, TextArea AITextField) {
+        if (question.equals("Wat is de hoofdstad van Frankrijk?")) {
+            AITextField.setText("Chat42: " + "De hoofdstad van Frankrijk is Parijs.");
+        }
+        else
+            AITextField.setText("Chat42: " + "Sorry, ik weet het antwoord daar niet op.");
+    }
 
 
 
