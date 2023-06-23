@@ -137,6 +137,7 @@ public class ApplicationController implements Initializable {
 
     @FXML
     private void register(ActionEvent event) throws IOException {
+        initializeLoginCredentials();
         if (loginCredentials.isValid()) {
             boolean success = databaseHandler.registerUser(loginCredentials.getUsername(), loginCredentials.getPassword());
             if (success) {
