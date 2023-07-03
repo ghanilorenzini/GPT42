@@ -1,25 +1,15 @@
 package com.example.demo;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Pair;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
-import java.text.BreakIterator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ApplicationController implements Initializable {
 
@@ -59,6 +49,9 @@ public class ApplicationController implements Initializable {
 
     @FXML
     private VBox messagesVBox;
+
+    @FXML
+    private ScrollPane chatScroll;
 
     @FXML
     private ScrollPane messagesScroll;
@@ -117,7 +110,7 @@ public class ApplicationController implements Initializable {
 
     @FXML
     void dashboard_lightmode(ActionEvent event){
-        EventHandler.handleDashboardLightMode(darkmode, anchorRechts, anchor_main, chatVBox, messagesVBox);
+        EventHandler.handleDashboardLightMode(darkmode, anchorRechts, anchor_main, chatVBox, chatScroll, messagesVBox, messagesScroll);
         darkmode = !darkmode;
     }
 
@@ -178,5 +171,9 @@ public class ApplicationController implements Initializable {
 
     public void uitloggen(ActionEvent event) throws IOException {
         HelloApplication.changeScreen(event, "42_start_screen.fxml");
+    }
+
+    public void dashboard_button(ActionEvent event) throws IOException{
+        HelloApplication.changeScreen(event, "42_dashboard.fxml");
     }
 }

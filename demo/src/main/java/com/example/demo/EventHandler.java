@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
@@ -22,24 +23,28 @@ public class EventHandler {
             }
             else {
                 anchorRechts.setStyle("-fx-background-color: white;");
-                anchor_main.setStyle("-fx-background-color: lightblue;");
+                anchor_main.setStyle("-fx-background-color: #e52844;");
+
             }
         }
 
-    public static void handleDashboardLightMode(boolean darkmode, AnchorPane anchorRechts, AnchorPane anchor_main, VBox chatVBox, VBox messagesVBox) {
+    public static void handleDashboardLightMode(boolean darkmode, AnchorPane anchorRechts, AnchorPane anchor_main, VBox chatVBox, ScrollPane chatScroll, VBox messagesVBox, ScrollPane messagesScroll) {
         if (!darkmode) {
+            chatVBox.setStyle("-fx-background-color: grey;");
             anchorRechts.setStyle("-fx-background-color: darkgrey;");
             anchor_main.setStyle("-fx-background-color: grey;");
-            chatVBox.setStyle("-fx-background-color: grey;");
             messagesVBox.setStyle("-fx-background-color: grey;");
-        }
-        else {
+            messagesScroll.setStyle("-  fx-background-color: white;");
+        } else {
+            chatVBox.setStyle("-fx-background-color: black;");
+            chatScroll.setStyle("-fx-background-color: red;");
             anchorRechts.setStyle("-fx-background-color: white;");
             anchor_main.setStyle("-fx-background-color: lightblue;");
-            chatVBox.setStyle("-fx-background-color: lightblue;");
             messagesVBox.setStyle("-fx-background-color: white;");
+            messagesScroll.setStyle("-fx-background-color: white;");
         }
     }
+
 
 
         public boolean isLightMode;

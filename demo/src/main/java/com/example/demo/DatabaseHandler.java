@@ -3,45 +3,41 @@ package com.example.demo;
 import java.sql.*;
 
 public class DatabaseHandler {
-    private Connection con;
-    private PreparedStatement pst;
-    private ResultSet rs;
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/easyplantDB";
+    private static final String USERNAME = "user";
+    private static final String PASSWORD = "password";
 
     public boolean registerUser(String username, String password) {
-        boolean success = false;
+        try (Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+             Statement statement = connection.createStatement()) {
 
-        if (!username.isBlank() && !password.isBlank()) {
-            if (username.equals("test") && password.equals("test")) {
-                success = true;
-            }
+            String query = "INSERT INTO users (username, password) VALUES (?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-
-        return success;
     }
 
     public boolean loginUser(String username, String password) {
-        boolean success = false;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/easyplantDB", "root", "password");
+        try (Connection connection = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+             Statement statement = connection.createStatement()) {
 
-            pst = con.prepareStatement("SELECT * FROM account WHERE gebruikersnaam=? AND wachtwoord=?");
-            pst.setString(1, username);
-            pst.setString(2, password);
+            String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            rs = pst.executeQuery();
-
-            if (rs.next()) {
-                success = true;
-            }
-
-            rs.close();
-            pst.close();
-            con.close();
-        } catch (ClassNotFoundException | SQLException ex) {
-            ex.printStackTrace();
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-
-        return success;
     }
 }

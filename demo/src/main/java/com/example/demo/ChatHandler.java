@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class ChatHandler extends QuestionAnsweringModel{
+public class ChatHandler extends QuestionAnsweringModel {
     private int buttonCount = 0;
     private Map<Button, Pair<VBox, TextField>> buttonAnchorMap = new HashMap<>();
 
@@ -79,18 +79,25 @@ public class ChatHandler extends QuestionAnsweringModel{
         return newButton;
     }
 
+
     private VBox createVBox() {
+        EventHandler eventHandler = new EventHandler();
         VBox newVBox = new VBox();
         newVBox.setPrefWidth(450);
         newVBox.setPrefHeight(520);
         newVBox.setLayoutX(119);
         newVBox.setLayoutY(40);
-        newVBox.setStyle("-fx-background-color: white");
+        if (!eventHandler.isLightMode) {
+            newVBox.setStyle("-fx-background-color: grey");
+        } else {
+            newVBox.setStyle("-fx-background-color: grey");
+        }
         newVBox.setVisible(false);
         return newVBox;
     }
 
     private ScrollPane createScrollPane(VBox content) {
+        EventHandler eventHandler = new EventHandler();
         ScrollPane newScrollPane = new ScrollPane(content);
         newScrollPane.setPrefWidth(450);
         newScrollPane.setPrefHeight(520);
@@ -98,6 +105,11 @@ public class ChatHandler extends QuestionAnsweringModel{
         newScrollPane.setLayoutY(40);
         newScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         newScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        if (eventHandler.isLightMode) {
+            newScrollPane.setStyle("-fx-background-color: white");
+        } else {
+            newScrollPane.setStyle("-fx-background-color: grey");
+        }
         return newScrollPane;
     }
 
@@ -112,7 +124,6 @@ public class ChatHandler extends QuestionAnsweringModel{
         newTextField.setStyle("-fx-text-fill: white; -fx-background-color: grey;");
         return newTextField;
     }
-
 
 
     private void changeButtonSubject(Button button) {
@@ -142,18 +153,19 @@ public class ChatHandler extends QuestionAnsweringModel{
     protected void answerQuestion(String question, TextArea AITextField) {
         if (question.equals("Wat is de hoofdstad van Frankrijk?")) {
             AITextField.setText("Chat42: " + "De hoofdstad van Frankrijk is Parijs.");
-        }
-        else
+        } else {
             AITextField.setText("Chat42: " + "Sorry, ik weet het antwoord daar niet op.");
+        }
+        if (question.equals("Via welke wegen kan ik het snelst naar Rome gaan?")) {
+            AITextField.setText("Chat42: " + "Ga gewoon met de vliegtuig...");
+        }
     }
-
-
 
     private void showAssociatedAnchorPane(Button button) {
         // Hide all VBox and TextField
         for (Pair<VBox, TextField> pair : buttonAnchorMap.values()) {
             pair.getKey().setVisible(false);
-            pair.getValue   ().setVisible(false);
+            pair.getValue().setVisible(false);
         }
 
         // Show the associated VBox and TextField for the clicked button

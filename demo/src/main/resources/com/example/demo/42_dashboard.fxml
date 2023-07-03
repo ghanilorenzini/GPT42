@@ -10,13 +10,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="anchor_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="677.0" prefWidth="936.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.ApplicationController">
+<AnchorPane fx:id="anchor_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="677.0" prefWidth="936.0" style="-fx-background-color: #e52844;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.ApplicationController">
    <children>
-      <Button fx:id="dashboard_lightmode" layoutX="218.0" layoutY="634.0" mnemonicParsing="false" onAction="#dashboard_lightmode" opacity="0.52" prefHeight="38.0" prefWidth="42.0" style="-fx-border-color: none; -fx-background-color: transparent;" />
       <StackPane prefHeight="150.0" prefWidth="200.0" />
-      <ScrollPane fx:id="mainScroll" hbarPolicy="NEVER" layoutX="15.0" layoutY="63.0" prefHeight="538.0" prefWidth="230.0" style="-fx-background-color: lightblue;" vbarPolicy="NEVER">
+      <ScrollPane fx:id="chatScroll" hbarPolicy="NEVER" layoutX="15.0" layoutY="63.0" prefHeight="538.0" prefWidth="230.0" style="-fx-background-color: #e52844;" vbarPolicy="NEVER">
          <content>
-            <VBox id=".chatVBox" fx:id="chatVBox" prefHeight="538.0" prefWidth="226.0" spacing="10.0" style="-fx-background-color: lightblue;" />
+            <VBox fx:id="chatVBox" prefHeight="538.0" prefWidth="226.0" spacing="10.0" style="-fx-background-color: #e52844;" />
          </content>
       </ScrollPane>
       <AnchorPane fx:id="anchorRechts" layoutX="264.0" layoutY="-1.0" prefHeight="678.0" prefWidth="672.0" style="-fx-background-color: white;">
@@ -38,12 +37,12 @@
             <Image url="@lightmode.png" />
          </image>
       </ImageView>
+      <Button fx:id="lightmode" layoutX="218.0" layoutY="634.0" mnemonicParsing="false" onAction="#lightmode" opacity="0.52" prefHeight="38.0" prefWidth="42.0" style="-fx-border-color: none; -fx-background-color: transparent;" />
       <Button fx:id="nieuwe_chat" alignment="TOP_LEFT" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" onAction="#nieuwe_chat" prefHeight="26.0" prefWidth="230.0" text="      Nieuwe Chat" textAlignment="CENTER" />
       <ImageView fitHeight="26.0" fitWidth="23.0" layoutX="15.0" layoutY="26.0">
          <image>
             <Image url="@plus.png" />
          </image>
       </ImageView>
-      <Button fx:id="dashboard_lightmode" layoutX="218.0" layoutY="638.0" mnemonicParsing="false" onAction="#dashboard_lightmode" opacity="0.52" prefHeight="30.0" prefWidth="40.0" style="-fx-border-color: none; -fx-background-color: transparent;" />
    </children>
 </AnchorPane>
